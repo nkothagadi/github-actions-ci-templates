@@ -2,13 +2,20 @@ name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
 
 jobs:
-  call-python-ci:
+  python-ci:
     uses: ./.github/workflows/reusable-python-ci.yml
     with:
-              python-version: '3.11'
-              image-name: 'app'
+      python-version: "3.12"
+      image-name: demo-app
