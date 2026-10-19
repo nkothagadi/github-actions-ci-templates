@@ -44,10 +44,10 @@ jobs:
       - name: Build image
         run: docker build -t ${{ inputs.image-name }}:${{ github.sha }} .
 
+      - name: Install Trivy
+        run: |
+          curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin
+
       - name: Scan image with Trivy
-        uses: aquasecurity/trivy-action@v0.28.0
-        with:
-          image-ref: ${{ inputs.image-name }}:${{ github.sha }}
-          severity: CRITICAL
-          ignore-unfixed: true
-          exit-code: "1"
+        run: trivy image --severity CRITICAL --ignore-unfixed --exit-code 1 ${{ inputs.image-name }}:${{ github.sha }}
+
