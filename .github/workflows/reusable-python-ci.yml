@@ -2,6 +2,17 @@ name: Reusable Python CI
 
 on:
   workflow_call:
+    inputs:
+      python-version:
+        description: 'Python version to use'
+        required: false
+        type: string
+        default: '3.11'
+      image-name:
+        description: 'Name of the Docker image'
+        required: false
+        type: string
+        default: 'app'
 
 jobs:
   build-and-test:
@@ -13,7 +24,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: ${{ inputs.python-version }}
           cache: 'pip'
 
       - name: Install dependencies
