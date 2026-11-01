@@ -1,4 +1,4 @@
-FROM python:3.14-slim
+FROM python:3.15-slim
 
 # Run as a non-root user.
 RUN useradd --create-home --uid 10001 appuser
